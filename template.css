@@ -1,0 +1,226 @@
+{% if part.name == 'ΚΟΡΜΟΣ' %}
+@page  {
+    font-family: Arial, sans-serif;
+    @top-center {
+        padding-top: 1cm;
+        content: "-"counter(page)"-";
+    }
+}
+{% elif part.type == "ΠΑΡΑΡΤΗΜΑ" %}
+@page {
+    font-family: Arial, sans-serif;
+    @top-center {
+        padding-top: 1cm;
+        content: string(sname) counter(page);
+    }
+}
+{% elif part.type == "ΠΡΟΣΘΗΚΗ" %}
+@page {
+    font-family: Arial, sans-serif;
+    @top-center {
+        padding-top: 1cm;
+        content: string(pname) string(sname) counter(page);
+    }
+}
+{% endif %}
+
+{% if doc['ΒΑΘΜΟΣ'] != 'ΕΜΠΙΣΤΕΥΤΙΚΟ' and doc['ΒΑΘΜΟΣ'] != '' %}
+@page {
+    @top-left {
+        padding-top: 2cm;
+        text-decoration: underline;
+        font-weight: bold;
+        content: "{{ doc['ΒΑΘΜΟΣ'] }}";
+    }
+    {% if part.type == "ΠΡΟΣΘΗΚΗ" %}
+    @bottom-right {
+        text-decoration: underline;
+        padding-bottom: 1cm;
+        font-weight: bold;
+        white-space: pre;
+        content: "Σελίδα " string(pname) string(sname) counter(page) " από σελίδες " string(pname) string(sname) counter(pages) "\A {{ doc['ΒΑΘΜΟΣ'] }}";
+    }
+    {% else %}
+    @bottom-right {
+        text-decoration: underline;
+        padding-bottom: 1cm;
+        font-weight: bold;
+        white-space: pre;
+        content: "Σελίδα " string(sname) counter(page) " από σελίδες " string(sname) counter(pages) "\A {{ doc['ΒΑΘΜΟΣ'] }}";
+    }
+    {% endif %}
+}
+{% endif %}
+
+@page portrait:first {
+    @top-center {
+        content: "";
+    }
+}
+
+@page portrait {
+    size: A4;
+    padding: 0;
+    margin-top: 2.5cm;
+    margin-bottom: 2cm;
+}
+
+@page portrait:right {
+    margin-left: 3.5cm;
+    margin-right: 2cm;
+}
+
+@page portrait:left {
+    margin-left: 2cm;
+    margin-right: 3.5cm;
+}
+
+@page landscape {
+    size: A4 landscape;
+    margin: 2cm;
+}
+
+@page landscape:right {
+    margin-top: 2.5cm;
+    margin-bottom: 2cm;
+}
+
+@page landscape:left {
+    margin-top: 2cm;
+    margin-bottom: 2.5cm;
+}
+
+section {
+    break-after: right;
+}
+
+.sname {
+    string-set: sname content() "-";
+}
+
+.pname {
+    string-set: pname content() "-";
+}
+
+.portrait {
+    page: portrait;
+}
+
+.landscape {
+    page: landscape;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 12pt;
+    text-align: justify;
+    vertical-align: top;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+    vertical-align: top;
+}
+
+p.center {
+    text-align: center;
+}
+
+td.center {
+    text-align: center;
+    vertical-align: middle;
+}
+
+table, tbody, thead, td, tr{
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+    vertical-align: top;
+    break-inside: avoid;
+	empty-cells: show;
+}
+
+table {
+    width: 100%;
+    table-layout: auto;
+}
+
+.with-borders {
+    white-space: pre;
+    border: 1px black solid;
+    border-collapse: collapse;
+    vertical-align: middle;
+}
+
+.p-border {
+    border-left: 1px black solid;
+    border-right: 1px black solid;
+    border-bottom: 1px black solid;
+    border-collapse: collapse;
+}
+
+
+.td-small {
+    font-size: 7pt;
+}
+.td-05 {
+    width: 1.5cm;
+}
+.td-1 {
+    width: 1cm;
+}
+.td-right {
+    width: 0;
+    white-space: nowrap;
+}
+
+.t-0 {
+    width: 1cm;
+    float: left;
+}
+.t-1 {
+    width: 1cm;
+    margin-left: 1.5cm;
+    float: left;
+}
+.t-2 {
+    width: 1cm;
+    margin-left: 2.5cm;
+    float: left;
+}
+.t-3 {
+    width: 1cm;
+    margin-left: 3.5cm;
+    float: left;
+}
+.t-4 {
+    width: 1cm;
+    margin-left: 4.5cm;
+    float: left;
+}
+.t-5 {
+    width: 1cm;
+    margin-left: 5.5cm;
+    float: left;
+}
+.t-6 {
+    width: 1cm;
+    margin-left: 6.5cm;
+    float: left;
+}
+.t-7 {
+    width: 1cm;
+    margin-left: 7.5cm;
+    float: left;
+}
+
+.block {
+    break-inside: avoid;
+}
+
+.dot-line::after {
+  content: leader(".");
+}

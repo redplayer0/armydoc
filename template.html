@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+  <section class="{{ part.orientation }}">
+    {% if part.name == "ΚΟΡΜΟΣ" %}
+    <table>
+      <tr>
+        <td colspan=3></td>
+        <td class="td-right"><strong>{{ doc["ΑΕΑ"] or "&nbsp;" }}</strong></td>
+      </tr>
+      <tr>
+        <td class="td-05"><strong>ΠΡΟΣ</strong></td>
+        <td class="td-1"><strong>:</strong></td>
+        {% if doc["ΠΙΝΑΚΑΣ_ΑΠΟΔΕΚΤΩΝ"] == True %}
+        <td></td>
+        {% elif doc["is_multisend"] %}
+        <td>{{ doc["ΠΡΟΣ"][0] or "&nbsp;" }}</td>
+        {% else %}
+        <td>{{ doc["ΠΡΟΣ"] or "&nbsp;" }}</td>
+        {% endif %}
+        <td class="td-right">{{ doc["ΜΟΝΑΔΑ"][0] }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"></td>
+        {% if doc["ΠΙΝΑΚΑΣ_ΑΠΟΔΕΚΤΩΝ"] == True %}
+        <td></td>
+        {% elif doc["is_multisend"] %}
+        <td>{{ doc["ΠΡΟΣ"][1] or "&nbsp;" }}</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td class="td-right">{{ doc["ΜΟΝΑΔΑ"][1] }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"></td>
+        {% if doc["ΠΙΝΑΚΑΣ_ΑΠΟΔΕΚΤΩΝ"] == True %}
+        <td>Πίνακας Αποδεκτών</td>
+        {% elif doc["is_multisend"] %}
+        <td>{{ doc["ΠΡΟΣ"][2] or "&nbsp;" }}</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td class="td-right">{{ doc["ΓΡΑΦΕΙΟ"] or "&nbsp;" }}</td>
+      </tr>
+      <tr>
+        <td colspan=3></td>
+        <td class="td-right">Tηλεφ.: {{ doc["ΤΗΛ"] }}</td>
+      </tr>
+      <tr>
+        <td class="td-05"><strong>ΚΟΙΝ.</strong></td>
+        <td class="td-1"><strong>:</strong></td>
+        {% if doc["ΠΙΝΑΚΑΣ_ΑΠΟΔΕΚΤΩΝ"] == True %}
+        <td></td>
+        {% elif doc["is_multiinfo"] %}
+        <td>{{ doc["ΚΟΙΝ"][0] or "&nbsp;" }}</td>
+        {% else %}
+        <td>{{ doc["ΚΟΙΝ"] or "&nbsp;" }}</td>
+        {% endif %}
+        <td class="td-right">{{ doc["ΦΑΚΕΛΟΣ"] or "&nbsp;" }}</td>
+      </tr>
+      <tr>
+        <td colspan=2></td>
+        {% if doc["ΠΙΝΑΚΑΣ_ΑΠΟΔΕΚΤΩΝ"] == True %}
+        <td></td>
+        {% elif doc["is_multiinfo"] %}
+        <td>{{ doc["ΚΟΙΝ"][1] or "&nbsp;" }}</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td class="td-right">{{ doc["ΣΧΕΔΙΟ"] or "&nbsp;" }}</td>
+      </tr>
+      <tr>
+        <td colspan=2></td>
+        {% if doc["ΠΙΝΑΚΑΣ_ΑΠΟΔΕΚΤΩΝ"] == True %}
+        <td></td>
+        {% elif doc["is_multiinfo"] %}
+        <td>{{ doc["ΚΟΙΝ"][2] or "&nbsp;" }}</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td class="td-right">{{ doc["ΗΜΕΡΟΜΗΝΙΑ"] or "&nbsp;" }}</td>
+      </tr>
+    </table>
+    <br>
+    <table>
+      <tr>
+        <td class="td-05"><strong>ΘΕΜΑ</strong></td>
+        <td class="td-1"><strong>:</strong></td>
+        <td><u>{{ doc["ΘΕΜΑ"] }}</u></td>
+      </tr>
+    </table>
+    <br>
+    <table>
+      {% if doc["ΕΝΑ_ΣΧΕΤ"] %}
+      <tr>
+        <td class="td-05"><strong>ΣΧΕΤ.</strong></td>
+        <td class="td-1"><strong>:</strong></td>
+        <td><u>{{ doc["ΣΧΕΤ"] }}</u>
+        <td>
+      <tr>
+        {% else %}
+        {% for link in doc["ΣΧΕΤ"] %}
+        {% if loop.first and loop.last %}
+      <tr>
+        <td class="td-05"><strong>ΣΧΕΤ.</strong></td>
+        <td class="td-1"><strong>:</strong></td>
+        <td><u>{{ link[0] }}</u>
+        <td>
+      <tr>
+        {% elif loop.first %}
+      <tr>
+        <td class="td-05"><strong>ΣΧΕΤ.</strong></td>
+        <td class="td-1"><strong>:</strong></td>
+        <td class="td-1">{{ link[1] }}. </td>
+        <td>{{ link[0] }}
+        <td>
+      </tr>
+      {% elif loop.last %}
+      <tr>
+        <td class="td-05">&nbsp;</td>
+        <td class="td-1">&nbsp;</td>
+        <td class="td-1">{{ link[1] }}. </td>
+        <td><u>{{ link[0] }}</u>
+        <td>
+      </tr>
+      {% else %}
+      <tr>
+        <td class="td-05">&nbsp;</td>
+        <td class="td-1">&nbsp;</td>
+        <td class="td-1">{{ link[1] }}. </td>
+        <td>{{ link[0] }}
+        <td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </table>
+    {% elif part.type == "ΠΑΡΑΡΤΗΜΑ" or part.type == "ΠΡΟΣΘΗΚΗ" %}
+    <table>
+      <td colspan=2></td>
+      <td class="td-right"><strong>{{ doc["ΑΕΑ"] or "&nbsp;" }}</strong></td>
+      </tr>
+      <tr>
+        <td colspan=2></td>
+        <td class="td-right">{{ doc["ΜΟΝΑΔΑ"][0] or "&nbsp;" }}</td>
+      </tr>
+      <tr>
+        <td colspan=2></td>
+        <td class="td-right">{{ doc["ΜΟΝΑΔΑ"][1] or "&nbsp;" }}</td>
+      </tr>
+      <tr>
+        <td colspan=2></td>
+        <td class="td-right">{{ doc["ΓΡΑΦΕΙΟ"] or "&nbsp;" }}</td>
+      </tr>
+      <tr>
+        <td colspan=2></td>
+        <td class="td-right">{{ doc["ΗΜΕΡΟΜΗΝΙΑ"] or "&nbsp;" }}</td>
+      </tr>
+      <tr>
+        {% if part.type == "ΠΡΟΣΘΗΚΗ" %}
+        <td><u>{{ part.type }} "
+            <span class="sname">{{ part.name.split("-")[1] }}</span>" ΣΤΟ ΠΑΡΑΡΤΗΜΑ "<span class="pname">{{
+              part.name.split("-")[0] }}</span>"</u></td>
+        {% else %}
+        <td><u>{{ part.type }} "<span class="sname">{{ part.name }}</span>" {{ doc["pronoun"][0] }} {{
+            doc["ΤΥΠΟΣ"][0]
+            }}</u></td>
+        {% endif %}
+        <td colspan="2"></td>
+      </tr>
+      <tr>
+        {% if part.type == "ΠΡΟΣΘΗΚΗ" %}
+        <td><u>{{ doc.pronoun[0] }} {{ doc["ΤΥΠΟΣ"][0] }} {{ doc["ΒΑΘΜΟΣ_2"] }} {{ doc["ΦΑΚΕΛΟΣ"] }}{{
+            doc["ΣΧΕΔΙΟ"]
+            }}</u></td>
+        {% else %}
+        <td><u>{{ doc["ΒΑΘΜΟΣ_2"] }} {{ doc["ΦΑΚΕΛΟΣ"] }}{{ doc["ΣΧΕΔΙΟ"] }}</u></td>
+        {% endif %}
+        <td colspan="2"></td>
+      </tr>
+    </table>
+
+    <br>
+    {% if "ΠΙΝΑΚΑΣ" in part["desc_2"] %}
+    <p class="center"><u>ΠΙΝΑΚΑΣ</u></p>
+    <p class="center"><u>{{ part["desc_2"].replace("ΠΙΝΑΚΑΣ", "").strip() }}</u></p>
+    {% else %}
+    <p class="center"><u>{{ part["desc_2"] }}</u></p>
+    {% endif %}
+    {% endif %}
+
+
+    {% for block in part.blocks %}
+    {% if block.btype == "break" %}
+    <p style="break-after: always;"></p>
+    {% elif block.btype == "dot-line" %}
+    <div class="dot-line"></div>
+    {% elif block.btype == "plain" %}
+    <br>
+    <p>{{ block.content }}</p>
+    {% elif block.btype == "img" %}
+    <br>
+    <img src="{{ block.path }}" style="max-width: 100%; height: auto;">
+    <br>
+    {% elif block.btype == "center line" %}
+    <div class="block">
+      {% if "nonl" in block %}
+      {% else %}
+      <br>
+      {% endif %}
+      <p class="center">{{ block.content }}</p>
+    </div>
+    {% elif block.btype == "line" %}
+    <div class="block">
+      {% if "nonl" in block %}
+      {% else %}
+      <br>
+      {% endif %}
+      <p class="t-{{ block.indent }}">{{ block.index }}</p>
+      <p>{{ block.content }}</p>
+    </div>
+    {% elif block.btype == "table" %}
+    <div class="block">
+      <br>
+      {% if block.name %}
+      <p class="center"><b>{{ block.name }}</b></p>
+      <br>
+      {% endif %}
+      <table class="with-borders" style="font-size: {{ block.size }}pt;">
+        {% for row in block.rows %}
+        <tr>
+          {% for cell in row %}
+          <td class="with-borders" rowspan="{{ cell.rowspan }}" colspan="{{ cell.colspan }}"
+            style="text-align: {{ cell.align }};">{{ cell.content }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
+    {# signatures #}
+    {# akrives antigrafo #}
+    {% if doc["is_copy"] %}
+    <br>
+    <table>
+      <tr>
+        <td></td>
+        <td></td>
+        <td class="td-right center">{{ doc["ΕΓΚΡΙΝΩΝ"][0] }} {{ doc["ΕΓΚΡΙΝΩΝ"][1] }}</td>
+      </tr>
+      <tr>
+        <td>Ακριβές Αντίγραφο</td>
+        <td></td>
+        <td class="td-right center">{{ doc["ΕΓΚΡΙΝΩΝ"][2] }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">&nbsp;</td>
+        <td class="td-right center">{% if doc["ΔΙΑ_ΤΟΝ"] %}(Δια τον απουσιάζοντα){% endif %}</td>
+      </tr>
+      <tr>
+        <td colspan="3">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="3">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="td-right center">{{ doc["ΕΚΔΟΤΗΣ_ΑΚΡΙΒΟΥΣ"][0] }} {{ doc["ΕΚΔΟΤΗΣ_ΑΚΡΙΒΟΥΣ"][1] }}</td>
+        <td colspan="2"></td>
+      </tr>
+      <tr>
+        <td class="td-right center">{{ doc["ΕΚΔΟΤΗΣ_ΑΚΡΙΒΟΥΣ"][2] }}</td>
+        <td colspan="2"></td>
+      </tr>
+    </table>
+    {% else %}
+    <div style="page-break-before: avoid;">
+      <br>
+      <table>
+        <tr>
+          <td class="td-right center"><u>{{ doc["ΥΠΟΓΡΑΦΗ_1"][0] }}</u></td>
+          <td class="center"><u>{{ doc["ΥΠΟΓΡΑΦΗ_2"][0] }}</u></td>
+          <td class="td-right center"><u>{{ doc["ΥΠΟΓΡΑΦΗ_3"][0] }}</u></td>
+        </tr>
+        <tr>
+          <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="td-right center">{{ doc["ΥΠΟΓΡΑΦΗ_1"][1] }}</td>
+          <td class="center">{{ doc["ΥΠΟΓΡΑΦΗ_2"][1] }}</td>
+          <td class="td-right center">{{ doc["ΥΠΟΓΡΑΦΗ_3"][1] }}</td>
+        </tr>
+        <tr>
+          <td class="td-right center">{{ doc["ΥΠΟΓΡΑΦΗ_1"][2] }}</td>
+          <td class="center">{{ doc["ΥΠΟΓΡΑΦΗ_2"][2] }}</td>
+          <td class="td-right center">{{ doc["ΥΠΟΓΡΑΦΗ_3"][2] }}</td>
+        </tr>
+      </table>
+    </div>
+    {% endif %}
+
+
+    {# prints children parts #}
+    {% if part["children"] %}
+    <div class="block">
+      <br>
+      {% if part.type == "ΠΡΟΣΘΗΚΗ" %}
+      <p><u>ΠΡΟΣΑΡΤΗΜΕΝΑ</u></p>
+      <br>
+      {# TODO fix this make it a table #}
+      {% for c in part["children"] %}
+      <p class="t-0">{{ c.name.split("-")[2] }}.</p>
+      <p>{{ c.desc }} </p>
+      {% endfor %}
+      {% elif part.type == "ΠΑΡΑΡΤΗΜΑ" %}
+      <p><u>ΠΡΟΣΘΗΚΕΣ</u></p>
+      <br>
+      {% for c in part["children"] %}
+      <p class="t-0">"{{ c[0].split("-")[1] }}"</p>
+      <p>{{ c[1] }} </p>
+      {% endfor %}
+      {% else %}
+      <p><u>ΠΑΡΑΡΤΗΜΑΤΑ</u></p>
+      <br>
+      {% for c in part["children"] %}
+      <p class="t-0">"{{ c[0] }}"</p>
+      <p>{{ c[1] }} </p>
+      {% endfor %}
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# add ΠΡΟΣΑΡΤΗΜΕΝΑ #}
+    {% if part.type == "ΠΡΟΣΘΗΚΗ" and part.children %}
+    {% for child in part.children %}
+    <div class="{{ child.orientation }}" style="break-before: always;">
+      <br>
+      {% if "ΠΙΝΑΚΑΣ" in child["desc_2"] %}
+      <p class="center"><u>ΠΙΝΑΚΑΣ</u></p>
+      <p class="center"><u>{{ child["desc_2"].replace("ΠΙΝΑΚΑΣ", "").strip() }}</u></p>
+      {% else %}
+      <p class="center"><u>{{ child["desc_2"] }}</u></p>
+      {% endif %}
+      <br>
+      <p class="center"><u>Προσαρτημένο {{ child.name.split("-")[2] }} στην Προσθήκη
+          "{{child.name.split("-")[1]}}/{{child.name.split("-")[0]}}" {{ doc.pronoun[1] }} {{
+          doc["ΤΥΠΟΣ"][1]}}</u>
+      </p>
+
+      {% for block in child.blocks %}
+      {% if block.btype == "break" %}
+      <p style="break-after: always;"></p>
+      {% elif block.btype == "dot-line" %}
+      <div class="dot-line"></div>
+      {% elif block.btype == "plain" %}
+      <br>
+      <p>{{ block.content }}</p>
+      {% elif block.btype == "img" %}
+      <br>
+      <img src="{{ block.path }}" style="max-width: 100%; height: auto;">
+      <br>
+      {% elif block.btype == "center line" %}
+      <div class="block">
+        {% if "nonl" in block %}
+        {% else %}
+        <br>
+        {% endif %}
+        <p class="center">{{ block.content }}</p>
+      </div>
+      {% elif block.btype == "line" %}
+      <div class="block">
+        {% if "nonl" in block %}
+        {% else %}
+        <br>
+        {% endif %}
+        <p class="t-{{ block.indent }}">{{ block.index }}</p>
+        <p>{{ block.content }}</p>
+      </div>
+      {% elif block.btype == "table" %}
+      <div class="block">
+        <br>
+        {% if block.name %}
+        <p class="center"><b>{{ block.name }}</b></p>
+        <br>
+        {% endif %}
+        <table {% if block.borders=="all" %}class="with-borders" {% endif %} style="font-size: {{ block.size }}pt;">
+          {% for row in block.rows %}
+          <tr>
+            {% for cell in row %}
+            <td {% if block.borders=="all" %}class="with-borders" {% endif %} rowspan="{{ cell.rowspan }}"
+              colspan="{{ cell.colspan }}" style="text-align: {{ cell.align }};">{{ cell.content }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      {% endif %}
+      {% endfor %}
+
+      {# signatures #}
+      {# akrives antigrafo #}
+      {% if doc["is_copy"] %}
+      <br>
+      <table>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="td-right center">{{ doc["ΕΓΚΡΙΝΩΝ"][0] }} {{ doc["ΕΓΚΡΙΝΩΝ"][1] }}</td>
+        </tr>
+        <tr>
+          <td>Ακριβές Αντίγραφο</td>
+          <td></td>
+          <td class="td-right center">{{ doc["ΕΓΚΡΙΝΩΝ"][2] }}</td>
+        </tr>
+        <tr>
+          <td colspan="2">&nbsp;</td>
+          <td class="td-right center">{% if doc["ΔΙΑ_ΤΟΝ"] %}(Δια τον απουσιάζοντα){% endif %}</td>
+        </tr>
+        <tr>
+          <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="td-right center">{{ doc["ΕΚΔΟΤΗΣ_ΑΚΡΙΒΟΥΣ"][0] }} {{ doc["ΕΚΔΟΤΗΣ_ΑΚΡΙΒΟΥΣ"][1] }}</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <td class="td-right center">{{ doc["ΕΚΔΟΤΗΣ_ΑΚΡΙΒΟΥΣ"][2] }}</td>
+          <td colspan="2"></td>
+        </tr>
+      </table>
+      {% else %}
+      <div style="page-break-before: avoid;">
+        <br>
+        <table>
+          <tr>
+            <td class="td-right center"><u>{{ doc["ΥΠΟΓΡΑΦΗ_1"][0] }}</u></td>
+            <td class="center"><u>{{ doc["ΥΠΟΓΡΑΦΗ_2"][0] }}</u></td>
+            <td class="td-right center"><u>{{ doc["ΥΠΟΓΡΑΦΗ_3"][0] }}</u></td>
+          </tr>
+          <tr>
+            <td colspan="3">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="3">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="3">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="td-right center">{{ doc["ΥΠΟΓΡΑΦΗ_1"][1] }}</td>
+            <td class="center">{{ doc["ΥΠΟΓΡΑΦΗ_2"][1] }}</td>
+            <td class="td-right center">{{ doc["ΥΠΟΓΡΑΦΗ_3"][1] }}</td>
+          </tr>
+          <tr>
+            <td class="td-right center">{{ doc["ΥΠΟΓΡΑΦΗ_1"][2] }}</td>
+            <td class="center">{{ doc["ΥΠΟΓΡΑΦΗ_2"][2] }}</td>
+            <td class="td-right center">{{ doc["ΥΠΟΓΡΑΦΗ_3"][2] }}</td>
+          </tr>
+        </table>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {# pinakas apodektwn #}
+    {% if part["name"] == "ΚΟΡΜΟΣ" and doc["ΠΙΝΑΚΑΣ_ΑΠΟΔΕΚΤΩΝ"] %}
+    <div class="block">
+      <br>
+      <p><u>ΠΙΝΑΚΑΣ ΑΠΟΔΕΚΤΩΝ</u></p>
+      <table>
+        <tr>
+          <td class="td-right"><u>Αποδέκτες για Ενέργεια</u></td>
+          <td></td>
+          {% if doc["ΑΕΑ"] %}
+          <td class="td-right center"><u>ΑΑΑ</u></td>
+          {% else %}
+          <td></td>
+          {% endif %}
+        </tr>
+        {% for a, item in doc["ΠΡΟΣ"] %}
+        <tr>
+          <td class="td-right">{{ item }}</td>
+          <td></td>
+          {% if doc["ΑΕΑ"] %}
+          <td class="td-right center">{{ a }}</td>
+          {% else %}
+          <td></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+        <tr>
+          <td class="td-right"><u>Αποδέκτες για Πληροφορία</u></td>
+          <td></td>
+          <td class="td-right"></td>
+        </tr>
+        {% for a, item in doc["ΚΟΙΝ"] %}
+        <tr>
+          <td class="td-right">{{ item }}</td>
+          <td></td>
+          {% if doc["ΑΕΑ"] %}
+          <td class="td-right center">{{ a }}</td>
+          {% else %}
+          <td></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    {% endif %}
+
+  </section>
+</body>
+
+</html>
