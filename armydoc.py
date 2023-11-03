@@ -404,5 +404,9 @@ if __name__ == "__main__":
         pdf_parts.append(generate_pdf_part(part))
 
     all_pages = [p for pdf in pdf_parts for p in pdf.pages]
+    if len(argv) == 5:
+        frompage = int(argv[3])
+        topage = int(argv[4])
+        all_pages = all_pages[frompage - 1 : topage]
     pdf_parts[0].copy(all_pages).write_pdf(output_filename)
     logging.info(f"Total pages: {len(all_pages)}")
